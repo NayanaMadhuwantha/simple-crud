@@ -1,7 +1,7 @@
 package com.simple.crud.simplecrud.controller;
 
 import com.simple.crud.simplecrud.dto.StudentDto;
-import com.simple.crud.simplecrud.service.impl.StudentService;
+import com.simple.crud.simplecrud.service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

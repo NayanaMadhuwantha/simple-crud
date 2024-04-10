@@ -1,9 +1,9 @@
-package com.simple.crud.simplecrud.service;
+package com.simple.crud.simplecrud.service.impl;
 
 import com.simple.crud.simplecrud.dto.StudentDto;
 import com.simple.crud.simplecrud.entity.Student;
 import com.simple.crud.simplecrud.repository.StudentRepository;
-import com.simple.crud.simplecrud.service.impl.StudentService;
+import com.simple.crud.simplecrud.service.StudentService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,14 +29,22 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void save(StudentDto studentDto) {
+    public StudentDto save(StudentDto studentDto) {
         Student student = new Student();
         student.setId(studentDto.getId());
         student.setName(studentDto.getName());
         student.setAge(studentDto.getAge());
         student.setEmail(studentDto.getEmail());
 
-        this.studentRepository.save(student);
+        Student studentSaved = this.studentRepository.save(student);
+
+        StudentDto studentDtoSaved = new StudentDto();
+        studentDtoSaved.setId(studentSaved.getId());
+        studentDtoSaved.setName(studentSaved.getName());
+        studentDtoSaved.setAge(studentSaved.getAge());
+        studentDtoSaved.setEmail(studentSaved.getEmail());
+
+        return studentDtoSaved;
     }
 
     @Override
@@ -61,6 +69,33 @@ public class StudentServiceImpl implements StudentService {
         return studentDto;
 
         //return optional.orElseThrow(() -> new NoSuchElementException("Student not found"));
+    }
+
+    @Override
+    public StudentDto update(long id, StudentDto studentDto) {
+
+        Optional<Student> optional = this.studentRepository.findById(id);
+
+        if (optional.isPresent()) {
+            Student student = optional.get();
+            student.setName(studentDto.getName());
+            student.setAge(studentDto.getAge());
+            student.setEmail(studentDto.getEmail());
+
+            Student studentSaved = this.studentRepository.save(student);
+
+            StudentDto studentDtoUpdated = new StudentDto();
+            studentDtoUpdated.setId(studentSaved.getId());
+            studentDtoUpdated.setName(studentSaved.getName());
+            studentDtoUpdated.setAge(studentSaved.getAge());
+            studentDtoUpdated.setEmail(studentSaved.getEmail());
+
+            return studentDtoUpdated;
+
+        } else {
+            throw new RuntimeException("Student not found");
+        }
+
     }
 
     @Override

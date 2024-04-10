@@ -1,4 +1,4 @@
-package com.simple.crud.simplecrud.service.impl;
+package com.simple.crud.simplecrud.service;
 
 import com.simple.crud.simplecrud.dto.StudentDto;
 
@@ -8,9 +8,11 @@ public interface StudentService {
 
     List<StudentDto> findAll();
 
-    void save(StudentDto student);
+    StudentDto save(StudentDto student);
 
     StudentDto findById(long id);
+
+    StudentDto update(long id, StudentDto studentDto);
 
     void deleteById(long id);
 
